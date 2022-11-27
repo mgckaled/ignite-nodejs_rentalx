@@ -4,6 +4,10 @@ notes.md
 # docker
 docker-compose copy.yml
 
+# temporary
+tmp
+./tmp
+
 # Logs
 logs
 *.log
