@@ -4,6 +4,7 @@ import fs from "fs";
 import { ICategoriesRepository } from "../../repositories/ICategoriesRepository";
 
 interface IImportCategory {
+  [x: string]: any;
   name: string;
   description: string;
 }
@@ -36,6 +37,15 @@ export class ImportCategoryUseCase {
 
   async execute(file: Express.Multer.File): Promise<void> {
     const categories = await this.loadCategories(file);
-    console.log(categories);
+
+    categories.map(async (category: IImportCategory) => {
+      const { name, description } = category;
+
+      const existCategory = this.categoriesRepository.findByName(name);
+
+      if (!existCategory) {
+        this.categoriesRepository.create({ name, description });
+      }
+    });
   }
 }
